@@ -10,11 +10,13 @@
       "tsoa": ["node_modules/tsoa/dist"],
       "tsoa/": ["node_modules/tsoa/dist/"]
     },
+    "rootDir": "./",
     "outDir": "./build",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": false,
     "skipLibCheck": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "moduleResolution": "node"
   }
 }
