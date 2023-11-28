@@ -1,8 +1,8 @@
 // import 'reflect-metadata';
 import './utils/prototypes';
-import swaggerUi from 'swagger-ui-express';
-import express, { Express } from 'express';
 import cors from 'cors';
+import express, { Express } from 'express';
+import swaggerUi from 'swagger-ui-express';
 import router from './router';
 // import { AppDataSource } from './database/dataSource';
 import swaggerDocument from '../public/swagger.json';

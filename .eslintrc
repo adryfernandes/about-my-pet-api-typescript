@@ -1,14 +1,4 @@
 {
-  "settings": {
-    "import/resolver": { 
-      "typescript": {
-        "alwaysTryTypes": true
-      }
-    },
-    "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"]
-    }
-  },
   "env": {
     "browser": true,
     "es2021": true,
@@ -19,9 +9,7 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
-    "prettier/prettier",
-    "plugin:import/errors",
-    "plugin:import/warnings"
+    "prettier/prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "overrides": [],
@@ -35,8 +23,7 @@
   },
   "plugins": [
     "@typescript-eslint",
-    "prettier",
-    "import"
+    "prettier"
   ],
   "rules": {
     "camelcase": ["error", { "properties": "never" }],
@@ -74,44 +61,6 @@
         "argsIgnorePattern": "^_",
         "varsIgnorePattern": "^_",
         "caughtErrorsIgnorePattern": "^_"
-      }
-    ],
-    "@typescript-eslint/no-explicit-any": "warn",
-    "@typescript-eslint/consistent-type-imports": "error",
-    "@typescript-eslint/no-non-null-asserted-optional-chain": "error",
-    "import/no-named-as-default-member": "off",
-    "import/no-duplicates": ["error", {"considerQueryString": true}],
-    "import/order": [
-      "error",
-      {
-        "pathGroups": [
-          {
-            "pattern": "src/**",
-            "group": "internal"
-          },
-          {
-            "pattern": "@/types/**",
-            "group": "type",
-            "position": "after"
-          },
-          {
-            "pattern": "@/types",
-            "group": "type",
-            "position": "after"
-          },
-          {
-            "pattern": "@/interfaces/**",
-            "group": "type",
-            "position": "after"
-          },
-          {
-            "pattern": "@/interfaces",
-            "group": "type",
-            "position": "after"
-          }
-        ],
-        "newlines-between": "always",
-        "alphabetize": { "order": "asc" }
       }
     ]
   }
