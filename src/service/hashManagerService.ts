@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+
 import { ExceptionError } from '@/errors';
 
 export class HashManagerService {

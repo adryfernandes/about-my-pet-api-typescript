@@ -1,5 +1,6 @@
+import type { Response, Request, NextFunction } from 'express';
 import { ValidateError as ErroTsoa } from 'tsoa';
-import { GENERIC_ERROR } from '@/utils/constants';
+
 import {
   ExceptionError,
   NotFoundError,
@@ -7,7 +8,7 @@ import {
   UnauthorizedError,
   ConflictError,
 } from '@/errors';
-import type { Response, Request, NextFunction } from 'express';
+import { GENERIC_ERROR } from '@/utils/constants';
 
 // Último código de erro: XXXX
 export const errorHandlerMiddleware = async (

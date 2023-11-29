@@ -1,8 +1,11 @@
 import dotenv from 'dotenv';
-import { ExceptionError } from '@/errors';
-import { Error } from '@/interfaces/error.interface';
-import { ErrorResponse } from '@/interfaces/utils.interface';
+
 import { GENERIC_ERROR } from './constants';
+
+import type { ExceptionError } from '@/errors';
+
+import { Error } from '@/interfaces/error.interface';
+import type { ErrorResponse } from '@/interfaces/utils.interface';
 
 /**
  * Fução para aguardar um tempo especifico
