@@ -1,12 +1,14 @@
-// import 'reflect-metadata';
 import './utils/prototypes';
-import swaggerUi from 'swagger-ui-express';
-import express, { Express } from 'express';
 import cors from 'cors';
-import router from './router';
+import type { Express } from 'express';
+import express from 'express';
+import swaggerUi from 'swagger-ui-express';
+
 // import { AppDataSource } from './database/dataSource';
 import swaggerDocument from '../public/swagger.json';
+
 import { errorHandlerMiddleware } from './middleware/errorHandlerMiddleware';
+import router from './router';
 
 const PORT = process?.env?.PORT || 3000;
 

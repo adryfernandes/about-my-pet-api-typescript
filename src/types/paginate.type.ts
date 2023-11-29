@@ -1,5 +1,5 @@
-// import { Timestamp } from '@/database/entities/extendings/Timestamp';
+import type { Timestamp } from '@/database/entities/extendings/Timestamp';
 
 export type EntityDefault<Entity> = {
-  timestamp: any;
+  timestamp: Timestamp;
 } & Entity;

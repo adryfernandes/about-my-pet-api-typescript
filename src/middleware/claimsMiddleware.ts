@@ -1,10 +1,13 @@
+import type { NextFunction, Response } from 'express';
+
 import { ExceptionError, UnauthorizedError } from '@/errors';
 import { AuthenticatorService } from '@/service';
 import { handleErrorResponse } from '@/utils';
-import type { NextFunction, Response } from 'express';
-import type { Request } from '@/interfaces';
-import type { ErrorResponse } from '@/interfaces/utils.interface';
+
 import type { AuthenticatorData } from '@/interfaces/services.interface';
+import type { ErrorResponse } from '@/interfaces/utils.interface';
+
+import type { Request } from '@/interfaces';
 
 // Coloca as informações contidas no token dentro do claims
 export const claimsMiddleware = (req: Request, res: Response, next: NextFunction) => {

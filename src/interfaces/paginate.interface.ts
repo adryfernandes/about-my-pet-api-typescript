@@ -1,4 +1,4 @@
-import { OrderPaginate } from '@/utils/enums';
+import type { OrderPaginate } from '@/utils/enums';
 
 // Retorno para paginação
 export interface PaginateResponse<Entity> {

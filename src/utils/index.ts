@@ -1,7 +1,11 @@
-import { ExceptionError } from '@/errors';
-import { Error } from '@/interfaces/error.interface';
-import { ErrorResponse } from '@/interfaces/utils.interface';
+import dotenv from 'dotenv';
+
 import { GENERIC_ERROR } from './constants';
+
+import type { ExceptionError } from '@/errors';
+
+import { Error } from '@/interfaces/error.interface';
+import type { ErrorResponse } from '@/interfaces/utils.interface';
 
 /**
  * Fução para aguardar um tempo especifico
@@ -77,4 +81,41 @@ export const handleErrorResponse = (error: Error): ErrorResponse => {
   }
 
   return result;
+};
+
+/**
+ * Verifica se as variáveis de ambiente foram configuradas
+ * @param env - variáveis de ambiente
+ * @returns
+ */
+export const isEnvConfigure = (env: { [k: string]: string }): boolean => {
+  if (!env || !Object.keys(env).length) {
+    return false;
+  }
+
+  const environmentsUndefineds: string[] =
+    Object.keys(env).filter((key: string) => !env[key]) || [];
+
+  return !environmentsUndefineds.length;
+};
+
+export const envConfig = () => {
+  const envLocalData = dotenv.config({
+    path: '.env.local',
+  });
+
+  const envData = dotenv.config({
+    path: `.env.${process.env.NODE_ENV || 'development'}`,
+  });
+
+  if (envLocalData?.parsed) {
+    envData.parsed = { ...envData?.parsed, ...envLocalData?.parsed };
+  }
+
+  if (!isEnvConfigure(envData.parsed)) {
+    console.error('ERRO AO INICIAR API - Variáveis de ambiente não configuradas');
+    throw new Error('ERROR');
+  }
+
+  return envData.parsed;
 };

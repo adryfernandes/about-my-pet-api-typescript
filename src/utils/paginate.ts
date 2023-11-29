@@ -1,8 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { FindOptionsOrder, FindOptionsRelations, FindOptionsWhere, Repository } from 'typeorm';
-import { PaginateResponse, QueryData, QueryParamsPaginate } from '@/interfaces/paginate.interface';
+import type { FindOptionsOrder, FindOptionsRelations, FindOptionsWhere, Repository } from 'typeorm';
+
 import { OrderPaginate } from './enums';
-import { EntityDefault } from '@/types/paginate.type';
+
+import type { EntityDefault } from '@/types/paginate.type';
+
+import type {
+  PaginateResponse,
+  QueryData,
+  QueryParamsPaginate,
+} from '@/interfaces/paginate.interface';
 
 /**
  * Faz a paginação da lista a partir da atualização do item
