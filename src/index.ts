@@ -6,7 +6,7 @@ import swaggerUi from 'swagger-ui-express';
 // import { AppDataSource } from './database/dataSource';
 import swaggerDocument from '../public/swagger.json';
 
-import { errorHandlerMiddleware } from './middleware/errorHandler.middleware';
+import { errorHandlerMiddleware } from './middleware/errorHandlerMiddleware';
 import router from './modules';
 
 const PORT = process?.env?.PORT || 3000;

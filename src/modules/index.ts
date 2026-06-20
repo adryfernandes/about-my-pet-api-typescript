@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import routerV1 from './v1';
 
-import { claimsMiddleware } from '@/middleware/claims.middleware';
+import { claimsMiddleware } from '@/middleware/claimsMiddleware';
 
 const router = Router();
 

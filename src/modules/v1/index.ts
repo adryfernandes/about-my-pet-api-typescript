@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { routerCredentials } from './credentials/router';
+import { routerCredentials } from './credentials/credentialsRouter';
 
 const router = Router();
 

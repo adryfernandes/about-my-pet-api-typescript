@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import credentialsController from './credentials.controller';
+import credentialsController from './credentialsController';
 
 const router = Router();
 

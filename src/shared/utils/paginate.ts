@@ -2,13 +2,13 @@ import type { FindOptionsOrder, FindOptionsRelations, FindOptionsWhere, Reposito
 
 import { OrderPaginate } from './enums';
 
-import type { EntityDefault } from '@/shared/types/paginate.type';
+import type { EntityDefault } from '@/shared/types/paginateType';
 
 import type {
   PaginateResponse,
   QueryData,
   QueryParamsPaginate,
-} from '@/interfaces/paginate.interface';
+} from '@/interfaces/PaginateInterface';
 
 /**
  * Faz a paginação da lista a partir da atualização do item

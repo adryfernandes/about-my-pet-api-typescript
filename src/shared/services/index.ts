@@ -1,2 +1,2 @@
-export * from './authenticator.service';
-export * from './hashManager.service';
+export * from './authenticatorService';
+export * from './hashManagerService';

@@ -4,8 +4,8 @@ import { ExceptionError, UnauthorizedError } from '@/errors';
 import { AuthenticatorService } from '@/shared/services';
 import { handleErrorResponse } from '@/shared/utils';
 
-import type { AuthenticatorData } from '@/interfaces/services.interface';
-import type { ErrorResponse } from '@/interfaces/utils.interface';
+import type { ErrorResponse } from '@/interfaces/ErrorInterface';
+import type { AuthenticatorData } from '@/interfaces/SercivesInterface';
 
 import type { Request } from '@/interfaces';
 
