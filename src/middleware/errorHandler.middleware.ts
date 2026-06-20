@@ -8,7 +8,7 @@ import {
   UnauthorizedError,
   ConflictError,
 } from '@/errors';
-import { GENERIC_ERROR } from '@/utils/constants';
+import { GENERIC_ERROR } from '@/shared/utils/constants';
 
 // Último código de erro: XXXX
 export const errorHandlerMiddleware = async (

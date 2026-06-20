@@ -15,7 +15,7 @@ export class HashManagerService {
 
     const cost = Number(process.env.PASSWORD_COST);
 
-    if (!cost || isNaN(cost)) {
+    if (!cost || Number.isNaN(cost)) {
       console.error('Error ao gerar hash de senha');
 
       throw new ExceptionError('XXX');

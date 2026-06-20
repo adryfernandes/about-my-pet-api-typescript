@@ -2,17 +2,17 @@ import { CreateDateColumn, DeleteDateColumn, UpdateDateColumn } from 'typeorm';
 
 export class Timestamp {
   @CreateDateColumn({
-    name: 'criado_em',
+    name: 'created_at',
   })
   createdAt: Date;
 
   @UpdateDateColumn({
-    name: 'atualizado_em',
+    name: 'updated_at',
   })
   updatedAt: Date;
 
   @DeleteDateColumn({
-    name: 'deletado_em',
+    name: 'updated_at',
   })
   deletedAt: Date;
 }

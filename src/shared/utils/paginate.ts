@@ -2,7 +2,7 @@ import type { FindOptionsOrder, FindOptionsRelations, FindOptionsWhere, Reposito
 
 import { OrderPaginate } from './enums';
 
-import type { EntityDefault } from '@/types/paginate.type';
+import type { EntityDefault } from '@/shared/types/paginate.type';
 
 import type {
   PaginateResponse,

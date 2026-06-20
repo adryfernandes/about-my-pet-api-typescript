@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 
-import { envConfig } from '@/utils';
+import { envConfig } from '@/shared/utils';
 
 const env = envConfig();
 const { DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_SCHEMA } = env || {};

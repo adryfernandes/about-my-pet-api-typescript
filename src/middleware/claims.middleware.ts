@@ -1,8 +1,8 @@
 import type { NextFunction, Response } from 'express';
 
 import { ExceptionError, UnauthorizedError } from '@/errors';
-import { AuthenticatorService } from '@/service';
-import { handleErrorResponse } from '@/utils';
+import { AuthenticatorService } from '@/shared/services';
+import { handleErrorResponse } from '@/shared/utils';
 
 import type { AuthenticatorData } from '@/interfaces/services.interface';
 import type { ErrorResponse } from '@/interfaces/utils.interface';
@@ -15,7 +15,7 @@ export const claimsMiddleware = (req: Request, res: Response, next: NextFunction
     // Regra feita para não precisar pôr um claims em toda rota,
     // sendo que só as rotas abaixo não precisam
     const { url } = req;
-    if (url.includes('credential')) {
+    if (url.includes('credentials')) {
       next();
 
       return;

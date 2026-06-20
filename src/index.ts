@@ -1,4 +1,3 @@
-import './utils/prototypes';
 import cors from 'cors';
 import type { Express } from 'express';
 import express from 'express';
@@ -7,8 +6,8 @@ import swaggerUi from 'swagger-ui-express';
 // import { AppDataSource } from './database/dataSource';
 import swaggerDocument from '../public/swagger.json';
 
-import { errorHandlerMiddleware } from './middleware/errorHandlerMiddleware';
-import router from './router';
+import { errorHandlerMiddleware } from './middleware/errorHandler.middleware';
+import router from './modules';
 
 const PORT = process?.env?.PORT || 3000;
 

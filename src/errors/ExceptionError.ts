@@ -1,4 +1,4 @@
-import { GENERIC_ERROR } from '@/utils/constants';
+import { GENERIC_ERROR } from '@/shared/utils/constants';
 
 /**
  * Classe customizada para erros 500 ( Exceptions )
