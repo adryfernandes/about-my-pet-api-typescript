@@ -1,20 +1,25 @@
 import 'reflect-metadata';
+import { join } from 'node:path';
+
 import { DataSource } from 'typeorm';
 
-import { envConfig } from '@/utils';
+const {
+  env: { DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_SCHEMA, DB_PORT },
+} = process;
 
-const env = envConfig();
-const { DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_SCHEMA } = env || {};
+const port = typeof DB_PORT === 'string' ? Number.parseInt(DB_PORT, 10) : undefined;
 
-export const AppDataSource: DataSource = new DataSource({
+export const AppDataSource = new DataSource({
   type: 'mssql',
   host: DB_SERVER,
-  port: 1433,
+  port,
   username: DB_USERNAME,
   password: DB_PASSWORD,
   database: DB_SCHEMA,
-  options: { encrypt: false },
-  entities: [`${__dirname}/**/entities/*.{ts,js}`],
-  migrations: [`${__dirname}/**/migrations/*.{ts,js}`],
-  migrationsTableName: 'Migracoes',
+  options: {
+    encrypt: false,
+  },
+  entities: [join(__dirname, '**', 'entities', '*.{ts,js}')],
+  migrations: [join(__dirname, '**', 'migrations', '*.{ts,js}')],
+  migrationsTableName: 'migrations',
 });

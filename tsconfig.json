@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
-    "target": "ES2021",
+    "target": "ES2024",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "commonjs",
+    "moduleResolution": "bundler",
+    "ignoreDeprecations": "6.0",
     "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"],
@@ -15,8 +17,11 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": false,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "noImplicitThis": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "moduleResolution": "node"
+    "types": ["node"]
   }
 }
