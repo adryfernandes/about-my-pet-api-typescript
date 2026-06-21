@@ -12,7 +12,7 @@ const envSchema = z.object({
   // DB_SERVER: z.string(),
   // DB_USERNAME: z.string(),
   // DB_PASSWORD: z.string(),
-  DB_SCHEMA: z.string(),
+  // DB_SCHEMA: z.string(),
   // DB_PORT: z.coerce.number().int().positive(),
   PASSWORD_COST: z.coerce.number().int().positive(),
 });
@@ -28,6 +28,6 @@ export const initEnv = (): void => {
   const result = envSchema.safeParse(process.env);
 
   if (!result.success) {
-    throw new ExceptionError('XXX', formatZodError(result.error));
+    throw new ExceptionError('XXX');
   }
 };

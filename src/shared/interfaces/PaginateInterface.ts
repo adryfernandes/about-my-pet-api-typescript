@@ -1,19 +1,26 @@
+import type { FindOptionsRelations, FindOptionsWhere } from 'typeorm';
+
 import type { OrderPaginate } from '@/shared/utils/enums';
 
-// Retorno para paginação
+export interface PaginateOptions<Entity> {
+  initialPage?: number;
+  offset?: number;
+  order?: OrderPaginate;
+  where: FindOptionsWhere<Entity> | Array<FindOptionsWhere<Entity>>;
+  relations?: FindOptionsRelations<Entity>;
+}
+
 export interface PaginateResponse<Entity> {
   data: Entity[];
   count: number;
 }
 
-// Parametro da requisição para a paginação
 export interface QueryParamsPaginate {
   initialPage: number;
   offset: number;
   order: OrderPaginate;
 }
 
-// Queries enviadas para paginação
 export interface QueryData {
   initial_page: string;
   offset: string;

@@ -1,100 +1,78 @@
-import type { FindOptionsOrder, FindOptionsRelations, FindOptionsWhere, Repository } from 'typeorm';
+import type {
+  FindOptionsOrder,
+  Repository,
+  ObjectLiteral,
+  FindOptionsWhere,
+  FindOptionsRelations,
+} from 'typeorm';
 
 import { OrderPaginate } from './enums';
 
 import type {
+  PaginateOptions,
   PaginateResponse,
   QueryData,
   QueryParamsPaginate,
 } from '@/shared/interfaces/PaginateInterface';
 import type { EntityDefault } from '@/shared/types/paginateType';
+import { Timestamp } from '@/database/entities/extendings/timestamp';
 
-/**
- * Faz a paginação da lista a partir da atualização do item
- * @param repository
- * @param initialPage
- * @param offset
- * @param order
- */
+export class Paginate<Entity extends Timestamp & ObjectLiteral> {
+  private readonly initialPage: number;
+  private readonly offset: number;
+  private readonly order: OrderPaginate;
+  private readonly where: FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[];
+  private readonly relations: FindOptionsRelations<Entity>;
 
-export class Paginate<Entity> {
   constructor(
     private readonly repository: Repository<Entity>,
-    private readonly initialPage = 1,
-    private readonly offset = 10,
-    private readonly order: OrderPaginate = OrderPaginate.DESC,
-    private readonly where: FindOptionsWhere<Entity> | Array<FindOptionsWhere<Entity>>,
-    private readonly relations: FindOptionsRelations<Entity> = {},
-  ) {}
+    private readonly options: PaginateOptions<Entity>,
+  ) {
+    this.initialPage = options.initialPage ?? 1;
+    this.offset = options.offset ?? 10;
+    this.order = options.order ?? OrderPaginate.DESC;
+    this.where = options.where;
+    this.relations = options.relations ?? {};
+  }
 
-  /**
-   * Formata a query de um jeito padrão
-   * @param query - query vinda da requisição
-   * @returns
-   */
   static handleQueryParams(query: Partial<QueryData>): QueryParamsPaginate {
-    const initialPage = query.initial_page;
-    const { offset } = query;
-    const { order } = query;
+    const initialPage = Number(query.initial_page ?? 1);
+    const offset = Number(query.offset ?? 10);
 
-    const queryParams: QueryParamsPaginate = {
-      initialPage: parseInt(initialPage) || 1,
-      offset: parseInt(offset) || 10,
-      order: OrderPaginate[order?.toUpperCase()] || OrderPaginate.ASC,
+    const orderRaw = query.order?.toUpperCase();
+
+    const order =
+      orderRaw && orderRaw in OrderPaginate ? (OrderPaginate as any)[orderRaw] : OrderPaginate.ASC;
+
+    return {
+      initialPage,
+      offset,
+      order,
     };
-
-    return queryParams;
   }
 
-  /**
-   * Lista por ordem da data de atualização
-   * @returns
-   */
-  async byUpdatedAt(): Promise<PaginateResponse<Entity>> {
-    const { order } = this;
-
-    const orderBy = { timestamp: { updatedAt: order } } as FindOptionsOrder<EntityDefault<Entity>>;
-    const result = await this.paginate(orderBy);
-
-    return result;
-  }
-
-  /**
-   * Ordena pelo item escolhildo
-   * @param orderBy - campo que será ordenada
-   * @returns
-   */
   async orderBy(
     orderBy?: FindOptionsOrder<EntityDefault<Entity>>,
   ): Promise<PaginateResponse<Entity>> {
-    const { order } = this;
+    const finalOrder =
+      orderBy && Object.keys(orderBy).length > 0
+        ? orderBy
+        : {
+            updatedAt: this.order,
+          };
 
-    if (!(orderBy || (orderBy && Object.keys(orderBy).length))) {
-      orderBy = { timestamp: { createdAt: order } } as FindOptionsOrder<EntityDefault<Entity>>;
-    }
-
-    const result = await this.paginate(orderBy);
-
-    return result;
+    return this.paginate(finalOrder as FindOptionsOrder<EntityDefault<Entity>>);
   }
 
-  /**
-   * Pagina ordenando pela coluna escolhida
-   * @param orderBy
-   * @returns
-   */
   private async paginate(orderBy: FindOptionsOrder<Entity>): Promise<PaginateResponse<Entity>> {
-    const { repository, initialPage, offset, where, relations } = this;
+    const skip = (this.initialPage - 1) * this.offset;
 
-    // Número de itens que a consulta irá pular para iniciar a paginação
-    const skip: number = (initialPage - 1) * offset;
-
-    const [data, count]: [Entity[], number] = await repository.findAndCount({
-      where,
-      relations,
+    const [data, count] = await this.repository.findAndCount({
+      where: this.where,
+      relations: this.relations,
       order: orderBy,
       skip,
-      take: offset,
+      take: this.offset,
     });
 
     return { data, count };

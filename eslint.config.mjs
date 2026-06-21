@@ -53,6 +53,9 @@ export default [
           alphabetize: { order: 'asc' },
         },
       ],
+      parserOptions: {
+        project: './tsconfig.json',
+      },
     },
   },
   {

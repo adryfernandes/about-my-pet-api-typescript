@@ -19,11 +19,10 @@ export const handleErrorResponse = (error: Partial<Error>): ErrorResponse => {
     statusCode: statusCode ?? HttpStatusCode.InternalServerError,
     response: {
       message: typeof message === 'string' && isEmpty(message.trim()) ? message : GENERIC_ERROR,
+      trace,
+      stack,
     },
   };
-
-  result.response.trace = trace;
-  result.response.stack = stack;
 
   return result;
 };
