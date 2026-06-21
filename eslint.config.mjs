@@ -65,4 +65,10 @@ export default [
       'prettier/prettier': ['error', { semi: true, endOfLine: 'auto' }],
     },
   },
+  {
+    files: ['**/*Controller.ts'],
+    rules: {
+      '@typescript-eslint/class-methods-use-this': 'off',
+    },
+  },
 ];

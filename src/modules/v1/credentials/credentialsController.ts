@@ -6,8 +6,9 @@ import loginUseCase from './useCases/loginUseCase';
 
 @Route('credentials')
 class CredentialsController {
-  public loginTest = async (req: Request, res: Response): Promise<void> => {
+  public loginTest = async (_req: Request, res: Response): Promise<void> => {
     const result = await loginUseCase.execute();
+
     res.status(HttpStatusCode.Ok).send(result);
   };
 }
