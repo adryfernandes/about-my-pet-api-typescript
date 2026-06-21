@@ -1,5 +1,5 @@
+// import 'express-async-errors';
 import cors from 'cors';
-import type { Express } from 'express';
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 
@@ -17,7 +17,7 @@ const init = async (): Promise<void> => {
     // await AppDataSource.initialize();
 
     // Inicia roteamento através do express
-    const app: Express = express();
+    const app = express();
     app.use(express.json());
     app.use(cors());
 

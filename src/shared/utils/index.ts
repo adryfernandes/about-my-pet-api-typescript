@@ -4,8 +4,8 @@ import { GENERIC_ERROR } from './constants';
 
 import type { ExceptionError } from '@/errors';
 
+import type { ErrorResponse } from '@/interfaces/ErrorInterface';
 import { Error } from '@/interfaces/ErrorInterface';
-import type { ErrorResponse } from '@/interfaces/UtilsInterface';
 
 /**
  * Fução para aguardar um tempo especifico
