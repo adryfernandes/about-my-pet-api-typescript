@@ -6,15 +6,17 @@ import swaggerDocument from '../public/swagger.json';
 
 import { errorHandlerMiddleware } from './middleware/errorHandlerMiddleware';
 import router from './modules';
-
-const EMPTY_LIST = 0;
-const DEFAULT_PORT = 3000;
-const PORT = process.env.PORT ?? DEFAULT_PORT;
+import { isEmpty } from './shared/utils/functions';
+import { initEnv } from './shared/utils/initServer';
 
 const init = (): void => {
+  const DEFAULT_PORT = 3000;
+
   try {
     // Inicia a conexão com o banco de dados
     // await AppDataSource.initialize();
+
+    initEnv();
 
     const app = express();
 
@@ -22,11 +24,10 @@ const init = (): void => {
     app.use(express.json());
 
     const allowedOrigins = (process.env.CORS_ORIGINS ?? '').split(',').filter(Boolean);
-    const hasAllowedOrigins = allowedOrigins.length > EMPTY_LIST;
 
     app.use(
       cors({
-        origin: hasAllowedOrigins ? allowedOrigins : false,
+        origin: isEmpty(allowedOrigins) ? allowedOrigins : false,
       }),
     );
 
@@ -35,8 +36,9 @@ const init = (): void => {
 
     app.use(errorHandlerMiddleware);
 
+    const PORT = process.env.PORT ?? DEFAULT_PORT;
     app.listen(PORT, () => {
-      // eslint-disable-next-line no-console -- log intencional de startup do servidor
+      // eslint-disable-next-line no-console -- Intentional server startup log
       console.log(`
           __   ____   __   _  _  ____    ____  ____  ____ 
           / _\\ (  _ \\ /  \\ / )( \\(_  _)  (  _ \\(  __)(_  _)

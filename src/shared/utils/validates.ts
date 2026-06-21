@@ -1,6 +1,6 @@
 import { CPF, CNPJ } from 'cpf_cnpj';
 
-import { onlyNumbers } from './';
+import { onlyNumbers } from './functions';
 
 export const validateEmail = (email: string): boolean => {
   const regex =

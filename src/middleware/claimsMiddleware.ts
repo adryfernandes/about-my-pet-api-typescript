@@ -5,7 +5,7 @@ import type { Request } from '@/shared/interfaces';
 import type { ErrorResponse } from '@/shared/interfaces/ErrorInterface';
 import type { AuthenticatorData } from '@/shared/interfaces/SercivesInterface';
 import { AuthenticatorService } from '@/shared/services';
-import { handleErrorResponse } from '@/shared/utils';
+import { handleErrorResponse } from '@/shared/utils/functions';
 
 export const claimsMiddleware = (req: Request, res: Response, next: NextFunction): void => {
   try {
