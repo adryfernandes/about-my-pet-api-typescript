@@ -1,23 +1,14 @@
+import { HttpStatusCode } from 'axios';
+
 import { GENERIC_ERROR } from '@/shared/utils/constants';
 
-/**
- * Classe customizada para erros 500 ( Exceptions )
- * Sua mensagem é sempre a mesma
- *
- * Seu construtor possui:
- *      trace: Código de erro para restreio ao debuggar
- *      stack: Caminho do erro
- *
- * @example {
- *  "message": "Erro inesperado, por favor entre em contato com o suporte.",
- *  "trace": "INV9999",
- *  "stack": null
- * }
- */
 export class ExceptionError extends Error {
-  public statusCode = 500;
+  public statusCode = HttpStatusCode.InternalServerError;
 
-  constructor(public trace: string, public stack?: string) {
+  constructor(
+    public trace: string,
+    public stack?: string,
+  ) {
     super(GENERIC_ERROR);
   }
 }

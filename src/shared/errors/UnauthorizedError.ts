@@ -1,14 +1,7 @@
-/**
- * Classe customizada para erros 401 ( unauthorized )
- * Sua mensagem é sempre a mesma
- *
- * @example {
- *  "message": "Ação não autorizada.",
- *  "trace": "INV9999"
- * }
- */
+import { HttpStatusCode } from 'axios';
+
 export class UnauthorizedError extends Error {
-  public statusCode = 401;
+  public statusCode = HttpStatusCode.Unauthorized;
 
   constructor(public trace: string) {
     super('Ação não autorizada.');

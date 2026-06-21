@@ -14,3 +14,5 @@ export enum OrderPaginate {
 export enum TokenType {
   BEARER = 'Bearer',
 }
+
+export enum C

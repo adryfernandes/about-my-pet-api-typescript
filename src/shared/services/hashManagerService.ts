@@ -3,20 +3,16 @@ import bcrypt from 'bcryptjs';
 import { ExceptionError } from '@/shared/errors';
 
 export class HashManagerService {
-  /**
-   * Cria hash da senha para criptografia e segurança
-   * @param password
-   * @returns
-   */
-  createHash(password: string): string {
-    if (!password) {
+  createHash(password: string): string | null {
+    if (password === '') {
       return null;
     }
 
-    const cost = Number(process.env.PASSWORD_COST);
+    const cost =
+      process.env.PASSWORD_COST !== undefined ? Number(process.env.PASSWORD_COST) : undefined;
 
-    if (!cost || Number.isNaN(cost)) {
-      console.error('Error ao gerar hash de senha');
+    if (cost === undefined || Number.isNaN(cost)) {
+      console.error('Erro ao gerar hash de senha');
 
       throw new ExceptionError('XXX');
     }
@@ -27,12 +23,6 @@ export class HashManagerService {
     return hash;
   }
 
-  /**
-   * Compara senha com hash
-   * @param password
-   * @param hash
-   * @returns
-   */
   compareHash(password: string, hash: string): boolean {
     if (!(password || hash)) {
       console.error('Senha não informada');

@@ -1,5 +1,7 @@
+import { HttpStatusCode } from 'axios';
 import type { Response, Request, NextFunction } from 'express';
 import { ValidateError as ErroTsoa } from 'tsoa';
+import { ZodError } from 'zod';
 
 import {
   ExceptionError,
@@ -9,15 +11,15 @@ import {
   ConflictError,
 } from '@/shared/errors';
 import { GENERIC_ERROR } from '@/shared/utils/constants';
+import { formatZodError } from '@/shared/utils/formatZodError';
 
 // Último código de erro: XXXX
-export const errorHandlerMiddleware = async (
+export const errorHandlerMiddleware = (
   err: ValidateError | NotFoundError | UnauthorizedError | ExceptionError | ConflictError | Error,
-  req: Request,
+  _req: Request,
   res: Response,
   _next: NextFunction,
-) => {
-  // Erros controlados
+): Response => {
   if (
     err instanceof ValidateError ||
     err instanceof NotFoundError ||
@@ -31,21 +33,25 @@ export const errorHandlerMiddleware = async (
     });
   }
 
-  // Erros da lib TSOA
-  if (err instanceof ErroTsoa) {
-    return res.status(422).json({
-      message: GENERIC_ERROR,
+  if (err instanceof ZodError) {
+    return res.status(HttpStatusCode.BadRequest).json({
+      message: 'Dados inválidos',
       trace: 'XXX',
-      stack: err?.fields,
+      errors: formatZodError(err),
     });
   }
 
-  // Erro não controlado
-  const message = {
+  if (err instanceof ErroTsoa) {
+    return res.status(HttpStatusCode.UnprocessableEntity).json({
+      message: GENERIC_ERROR,
+      trace: 'XXX',
+      stack: err.fields,
+    });
+  }
+
+  return res.status(HttpStatusCode.InternalServerError).json({
     message: GENERIC_ERROR,
     trace: 'XXX',
-    stack: (err as Error)?.stack,
-  };
-
-  return res.status(500).json(message);
+    stack: err.stack,
+  });
 };
