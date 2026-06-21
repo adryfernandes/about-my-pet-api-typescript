@@ -16,6 +16,9 @@ export default [
         ...globals.node,
         ...globals.jest,
       },
+      parserOptions: {
+        project: './tsconfig.json',
+      },
     },
     settings: {
       'import/resolver': {
@@ -53,9 +56,6 @@ export default [
           alphabetize: { order: 'asc' },
         },
       ],
-      parserOptions: {
-        project: './tsconfig.json',
-      },
     },
   },
   {

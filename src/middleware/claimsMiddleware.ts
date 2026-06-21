@@ -2,10 +2,10 @@ import type { NextFunction, Response } from 'express';
 
 import { ExceptionError, UnauthorizedError } from '@/shared/errors';
 import type { Request } from '@/shared/interfaces';
-import type { AuthenticatorData } from '@/shared/interfaces/SercivesInterface';
+import type { ErrorResponse } from '@/shared/interfaces/ErrorInterface';
+import type { AuthenticatorData } from '@/shared/interfaces/ServicesInterface';
 import { AuthenticatorService } from '@/shared/services';
 import { handleErrorResponse } from '@/shared/utils/functions';
-import { ErrorResponse } from '@/shared/interfaces/ErrorInterface';
 
 export const claimsMiddleware = (req: Request, res: Response, next: NextFunction): void => {
   try {

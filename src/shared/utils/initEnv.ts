@@ -5,8 +5,6 @@ import { z } from 'zod';
 
 import { ExceptionError } from '../errors';
 
-import { formatZodError } from './formatZodError';
-
 const envSchema = z.object({
   NODE_ENV: z.string(),
   // DB_SERVER: z.string(),

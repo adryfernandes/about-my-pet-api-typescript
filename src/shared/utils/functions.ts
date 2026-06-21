@@ -27,7 +27,7 @@ export const handleErrorResponse = (error: Partial<Error>): ErrorResponse => {
   return result;
 };
 
-export const isEmpty = (value: string | object): boolean => {
+export const isEmpty = (value: string | object | number): boolean => {
   const EMPTY_LENGHT = 0;
 
   if (typeof value === 'string') {
@@ -40,6 +40,10 @@ export const isEmpty = (value: string | object): boolean => {
 
   if (typeof value === 'object') {
     return Object.keys(value).length === EMPTY_LENGHT;
+  }
+
+  if (typeof value === 'number') {
+    return value === EMPTY_LENGHT;
   }
 
   return false;

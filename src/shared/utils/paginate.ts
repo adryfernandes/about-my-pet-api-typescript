@@ -1,71 +1,54 @@
-import type {
-  FindOptionsOrder,
-  Repository,
-  ObjectLiteral,
-  FindOptionsWhere,
-  FindOptionsRelations,
-} from 'typeorm';
+import type { FindOptionsOrder, Repository, FindOptionsWhere, FindOptionsRelations } from 'typeorm';
 
 import { OrderPaginate } from './enums';
+import { isEnumValue } from './isEnumValue';
 
+import type { DefaultEntity } from '@/shared/interfaces/DefaultEntity';
 import type {
   PaginateOptions,
   PaginateResponse,
   QueryData,
   QueryParamsPaginate,
 } from '@/shared/interfaces/PaginateInterface';
-import type { EntityDefault } from '@/shared/types/paginateType';
-import { Timestamp } from '@/database/entities/extendings/timestamp';
 
-export class Paginate<Entity extends Timestamp & ObjectLiteral> {
+const DEFAULT_PAGE = 1;
+const DEFAULT_OFFSET = 10;
+const PAGE_OFFSET_START = 1;
+
+export class Paginate<Entity extends DefaultEntity> {
   private readonly initialPage: number;
   private readonly offset: number;
-  private readonly order: OrderPaginate;
-  private readonly where: FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[];
+  private readonly where: FindOptionsWhere<Entity> | Array<FindOptionsWhere<Entity>>;
   private readonly relations: FindOptionsRelations<Entity>;
 
   constructor(
     private readonly repository: Repository<Entity>,
-    private readonly options: PaginateOptions<Entity>,
+    options: PaginateOptions<Entity>,
   ) {
-    this.initialPage = options.initialPage ?? 1;
-    this.offset = options.offset ?? 10;
-    this.order = options.order ?? OrderPaginate.DESC;
-    this.where = options.where;
-    this.relations = options.relations ?? {};
+    const { initialPage = DEFAULT_PAGE, offset = DEFAULT_OFFSET, where, relations = {} } = options;
+
+    this.initialPage = initialPage;
+    this.offset = offset;
+    this.where = where;
+    this.relations = relations;
   }
 
   static handleQueryParams(query: Partial<QueryData>): QueryParamsPaginate {
-    const initialPage = Number(query.initial_page ?? 1);
-    const offset = Number(query.offset ?? 10);
+    const initialPage = Number(query.initial_page ?? DEFAULT_PAGE);
+    const offset = Number(query.offset ?? DEFAULT_OFFSET);
 
-    const orderRaw = query.order?.toUpperCase();
+    const orderRaw = query.order?.toUpperCase() ?? '';
+    const order = isEnumValue(OrderPaginate, orderRaw) ? orderRaw : OrderPaginate.ASC;
 
-    const order =
-      orderRaw && orderRaw in OrderPaginate ? (OrderPaginate as any)[orderRaw] : OrderPaginate.ASC;
-
-    return {
-      initialPage,
-      offset,
-      order,
-    };
+    return { initialPage, offset, order };
   }
 
-  async orderBy(
-    orderBy?: FindOptionsOrder<EntityDefault<Entity>>,
-  ): Promise<PaginateResponse<Entity>> {
-    const finalOrder =
-      orderBy && Object.keys(orderBy).length > 0
-        ? orderBy
-        : {
-            updatedAt: this.order,
-          };
-
-    return this.paginate(finalOrder as FindOptionsOrder<EntityDefault<Entity>>);
+  async orderBy(orderBy: FindOptionsOrder<Entity>): Promise<PaginateResponse<Entity>> {
+    return await this.paginate(orderBy);
   }
 
   private async paginate(orderBy: FindOptionsOrder<Entity>): Promise<PaginateResponse<Entity>> {
-    const skip = (this.initialPage - 1) * this.offset;
+    const skip = (this.initialPage - PAGE_OFFSET_START) * this.offset;
 
     const [data, count] = await this.repository.findAndCount({
       where: this.where,
