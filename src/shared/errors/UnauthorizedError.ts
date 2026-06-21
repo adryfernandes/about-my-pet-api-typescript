@@ -1,9 +1,9 @@
 import { HttpStatusCode } from 'axios';
 
-export class UnauthorizedError extends Error {
-  public statusCode = HttpStatusCode.Unauthorized;
+import { BaseError } from './BaseError';
 
-  constructor(public trace: string) {
-    super('Ação não autorizada.');
+export class UnauthorizedError extends BaseError {
+  constructor(trace: string) {
+    super('Ação não autorizada.', trace, HttpStatusCode.Unauthorized);
   }
 }

@@ -1,14 +1,11 @@
 import { HttpStatusCode } from 'axios';
 
+import { BaseError } from './BaseError';
+
 import { GENERIC_ERROR } from '@/shared/utils/constants';
 
-export class ExceptionError extends Error {
-  public statusCode = HttpStatusCode.InternalServerError;
-
-  constructor(
-    public trace: string,
-    public stack?: string,
-  ) {
-    super(GENERIC_ERROR);
+export class ExceptionError extends BaseError {
+  constructor(trace: string) {
+    super(GENERIC_ERROR, trace, HttpStatusCode.InternalServerError);
   }
 }

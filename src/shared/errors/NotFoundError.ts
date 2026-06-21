@@ -1,13 +1,9 @@
 import { HttpStatusCode } from 'axios';
 
-export class NotFoundError extends Error {
-  public statusCode = HttpStatusCode.NotFound;
+import { BaseError } from './BaseError';
 
-  constructor(
-    public message: string,
-    public trace: string,
-    public stack?: string,
-  ) {
-    super(message);
+export class ExceptionError extends BaseError {
+  constructor(message: string, trace: string) {
+    super(message, trace, HttpStatusCode.NotFound);
   }
 }

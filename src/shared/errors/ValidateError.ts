@@ -1,13 +1,9 @@
 import { HttpStatusCode } from 'axios';
 
-export class ValidateError extends Error {
-  public statusCode = HttpStatusCode.BadRequest;
+import { BaseError } from './BaseError';
 
-  constructor(
-    public message: string,
-    public trace: string,
-    public stack?: string,
-  ) {
-    super(message);
+export class ValidateError extends BaseError {
+  constructor(message: string, trace: string) {
+    super(message, trace, HttpStatusCode.BadRequest);
   }
 }

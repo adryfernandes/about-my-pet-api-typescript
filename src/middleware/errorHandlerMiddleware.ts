@@ -3,30 +3,18 @@ import type { Response, Request, NextFunction } from 'express';
 import { ValidateError as ErroTsoa } from 'tsoa';
 import { ZodError } from 'zod';
 
-import {
-  ExceptionError,
-  NotFoundError,
-  ValidateError,
-  UnauthorizedError,
-  ConflictError,
-} from '@/shared/errors';
+import { BaseError } from '@/shared/errors/BaseError';
 import { GENERIC_ERROR } from '@/shared/utils/constants';
 import { formatZodError } from '@/shared/utils/formatZodError';
 
 // Último código de erro: XXXX
 export const errorHandlerMiddleware = (
-  err: ValidateError | NotFoundError | UnauthorizedError | ExceptionError | ConflictError | Error,
+  err: BaseError | Error,
   _req: Request,
   res: Response,
   _next: NextFunction,
 ): Response => {
-  if (
-    err instanceof ValidateError ||
-    err instanceof NotFoundError ||
-    err instanceof UnauthorizedError ||
-    err instanceof ExceptionError ||
-    err instanceof ConflictError
-  ) {
+  if (err instanceof BaseError) {
     return res.status(err.statusCode).json({
       message: err.message,
       trace: err.trace,
@@ -45,13 +33,13 @@ export const errorHandlerMiddleware = (
     return res.status(HttpStatusCode.UnprocessableEntity).json({
       message: GENERIC_ERROR,
       trace: 'XXX',
-      stack: err.fields,
+      errors: err.fields,
     });
   }
 
   return res.status(HttpStatusCode.InternalServerError).json({
     message: GENERIC_ERROR,
     trace: 'XXX',
-    stack: err.stack,
+    errors: err.stack,
   });
 };

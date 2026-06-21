@@ -1,13 +1,9 @@
 import { HttpStatusCode } from 'axios';
 
-export class ConflictError extends Error {
-  public statusCode = HttpStatusCode.Conflict;
+import { BaseError } from './BaseError';
 
-  constructor(
-    public message: string,
-    public trace: string,
-    public stack?: string,
-  ) {
-    super(message);
+export class ConflictError extends BaseError {
+  constructor(message: string, trace: string) {
+    super(message, trace, HttpStatusCode.Conflict);
   }
 }
