@@ -2,13 +2,12 @@ import type { FindOptionsOrder, FindOptionsRelations, FindOptionsWhere, Reposito
 
 import { OrderPaginate } from './enums';
 
-import type { EntityDefault } from '@/shared/types/paginateType';
-
 import type {
   PaginateResponse,
   QueryData,
   QueryParamsPaginate,
-} from '@/interfaces/PaginateInterface';
+} from '@/shared/interfaces/PaginateInterface';
+import type { EntityDefault } from '@/shared/types/paginateType';
 
 /**
  * Faz a paginação da lista a partir da atualização do item
@@ -20,12 +19,12 @@ import type {
 
 export class Paginate<Entity> {
   constructor(
-    private repository: Repository<Entity>,
-    private initialPage: number = 1,
-    private offset: number = 10,
-    private order: OrderPaginate = OrderPaginate.DESC,
-    private where: FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[],
-    private relations: FindOptionsRelations<Entity> = {}
+    private readonly repository: Repository<Entity>,
+    private readonly initialPage = 1,
+    private readonly offset = 10,
+    private readonly order: OrderPaginate = OrderPaginate.DESC,
+    private readonly where: FindOptionsWhere<Entity> | Array<FindOptionsWhere<Entity>>,
+    private readonly relations: FindOptionsRelations<Entity> = {},
   ) {}
 
   /**
@@ -35,8 +34,8 @@ export class Paginate<Entity> {
    */
   static handleQueryParams(query: Partial<QueryData>): QueryParamsPaginate {
     const initialPage = query.initial_page;
-    const offset = query.offset;
-    const order = query.order;
+    const { offset } = query;
+    const { order } = query;
 
     const queryParams: QueryParamsPaginate = {
       initialPage: parseInt(initialPage) || 1,
@@ -66,7 +65,7 @@ export class Paginate<Entity> {
    * @returns
    */
   async orderBy(
-    orderBy?: FindOptionsOrder<EntityDefault<Entity>>
+    orderBy?: FindOptionsOrder<EntityDefault<Entity>>,
   ): Promise<PaginateResponse<Entity>> {
     const { order } = this;
 
@@ -98,6 +97,6 @@ export class Paginate<Entity> {
       take: offset,
     });
 
-    return <PaginateResponse<Entity>>{ data, count };
+    return { data, count };
   }
 }

@@ -29,6 +29,7 @@ export default [
       'consistent-return': 'error',
       'no-else-return': 'warn',
       'no-console': ['error', { allow: ['warn', 'error'] }],
+      'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['req'] }],
       'array-callback-return': 'error',
       eqeqeq: ['error', 'always'],
       'no-await-in-loop': 'warn',

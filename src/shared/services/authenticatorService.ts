@@ -1,8 +1,8 @@
 import * as jwt from 'jsonwebtoken';
 
-import { UnauthorizedError } from '@/errors';
+import { UnauthorizedError } from '@/shared/errors';
 
-import type { AuthenticatorData } from '@/interfaces/SercivesInterface';
+import type { AuthenticatorData } from '@/shared/interfaces/SercivesInterface';
 
 export class AuthenticatorService {
   /**

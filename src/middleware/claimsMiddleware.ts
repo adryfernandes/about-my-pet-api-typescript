@@ -1,19 +1,14 @@
 import type { NextFunction, Response } from 'express';
 
-import { ExceptionError, UnauthorizedError } from '@/errors';
+import { ExceptionError, UnauthorizedError } from '@/shared/errors';
+import type { Request } from '@/shared/interfaces';
+import type { ErrorResponse } from '@/shared/interfaces/ErrorInterface';
+import type { AuthenticatorData } from '@/shared/interfaces/SercivesInterface';
 import { AuthenticatorService } from '@/shared/services';
 import { handleErrorResponse } from '@/shared/utils';
 
-import type { ErrorResponse } from '@/interfaces/ErrorInterface';
-import type { AuthenticatorData } from '@/interfaces/SercivesInterface';
-
-import type { Request } from '@/interfaces';
-
-// Coloca as informações contidas no token dentro do claims
-export const claimsMiddleware = (req: Request, res: Response, next: NextFunction) => {
+export const claimsMiddleware = (req: Request, res: Response, next: NextFunction): void => {
   try {
-    // Regra feita para não precisar pôr um claims em toda rota,
-    // sendo que só as rotas abaixo não precisam
     const { url } = req;
     if (url.includes('credentials')) {
       next();
@@ -21,25 +16,24 @@ export const claimsMiddleware = (req: Request, res: Response, next: NextFunction
       return;
     }
 
-    const authorization: string = req?.headers?.authorization;
-    if (!authorization) {
+    const {
+      headers: { authorization },
+    } = req;
+
+    if (authorization === undefined || authorization === '') {
       throw new UnauthorizedError('XXX');
     }
 
-    const token: string = authorization?.split(' ')?.[1];
+    const [, token] = authorization.split(' ');
 
-    const _authenticatorService: AuthenticatorService = new AuthenticatorService();
-    const tokenData: AuthenticatorData = _authenticatorService.getTokenData(token);
+    const authenticatorService = new AuthenticatorService();
+    const tokenData: AuthenticatorData = authenticatorService.getTokenData(token);
 
     req.claims = tokenData;
 
     next();
   } catch (err) {
-    let error = err;
-
-    if (!(error instanceof UnauthorizedError)) {
-      error = new ExceptionError('XXX');
-    }
+    const error = err instanceof UnauthorizedError ? err : new ExceptionError('XXX');
     const { statusCode, response }: ErrorResponse = handleErrorResponse(error);
 
     res.status(statusCode).send(response);

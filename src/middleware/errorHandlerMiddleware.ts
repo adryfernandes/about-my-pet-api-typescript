@@ -7,7 +7,7 @@ import {
   ValidateError,
   UnauthorizedError,
   ConflictError,
-} from '@/errors';
+} from '@/shared/errors';
 import { GENERIC_ERROR } from '@/shared/utils/constants';
 
 // Último código de erro: XXXX
@@ -15,7 +15,7 @@ export const errorHandlerMiddleware = async (
   err: ValidateError | NotFoundError | UnauthorizedError | ExceptionError | ConflictError | Error,
   req: Request,
   res: Response,
-  _next: NextFunction
+  _next: NextFunction,
 ) => {
   // Erros controlados
   if (

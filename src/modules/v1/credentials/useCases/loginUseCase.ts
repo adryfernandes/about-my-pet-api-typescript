@@ -1,4 +1,4 @@
-import { ExceptionError } from '@/errors';
+import { ExceptionError } from '@/shared/errors';
 
 class LoginUseCase {
   public async execute() {

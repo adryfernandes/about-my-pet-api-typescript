@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 
-import { ExceptionError } from '@/errors';
+import { ExceptionError } from '@/shared/errors';
 
 export class HashManagerService {
   /**

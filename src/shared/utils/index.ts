@@ -2,18 +2,17 @@ import dotenv from 'dotenv';
 
 import { GENERIC_ERROR } from './constants';
 
-import type { ExceptionError } from '@/errors';
-
-import type { ErrorResponse } from '@/interfaces/ErrorInterface';
-import { Error } from '@/interfaces/ErrorInterface';
+import type { ExceptionError } from '@/shared/errors';
+import type { ErrorResponse } from '@/shared/interfaces/ErrorInterface';
+import { Error } from '@/shared/interfaces/ErrorInterface';
 
 /**
  * Fução para aguardar um tempo especifico
  * @param ms - tempo em milissegundos
  * @returns
  */
-export const wait = (ms: number) => {
-  return new Promise((resolve) => {
+export const wait = async (ms: number) => {
+  return await new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
 };
@@ -53,9 +52,9 @@ export const onlyNumbers = (value: string): string => {
 };
 
 export const handle = async <Result>(
-  promise: Promise<Result>
+  promise: Promise<Result>,
 ): Promise<[ExceptionError | Error | undefined, Result | undefined]> => {
-  return promise
+  return await promise
     .then((response) => [undefined, response] as [undefined, Result])
     .catch((error: ExceptionError | Error) => [error, undefined]);
 };
@@ -74,10 +73,10 @@ export const handleErrorResponse = (error: Error): ErrorResponse => {
   };
 
   if (error.trace) {
-    result.response['trace'] = error.trace;
+    result.response.trace = error.trace;
   }
   if (error.stack || (error.stack && Object.keys(error.stack).length)) {
-    result.response['stack'] = error.stack;
+    result.response.stack = error.stack;
   }
 
   return result;
@@ -88,7 +87,7 @@ export const handleErrorResponse = (error: Error): ErrorResponse => {
  * @param env - variáveis de ambiente
  * @returns
  */
-export const isEnvConfigure = (env: { [k: string]: string }): boolean => {
+export const isEnvConfigure = (env: Record<string, string>): boolean => {
   if (!env || !Object.keys(env).length) {
     return false;
   }
