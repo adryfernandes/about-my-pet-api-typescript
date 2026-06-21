@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-import credentialsController from './credentialsController';
+import { findAll } from './credentialsController';
 
 const router = Router();
 
-router.get('/', credentialsController.findAll);
+router.get('/', findAll);
 
 export { router as routerCredentials };

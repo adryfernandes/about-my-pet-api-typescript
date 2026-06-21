@@ -1,37 +1,44 @@
-import * as jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
-import { UnauthorizedError } from '@/shared/errors';
+import { ExceptionError, UnauthorizedError } from '../errors';
+import { isAuthenticatorData } from '../utils/functions';
 
 import type { AuthenticatorData } from '@/shared/interfaces/ServicesInterface';
 
 export class AuthenticatorService {
-  /**
-   * Gera token a partir do payload
-   * @param payload
-   * @returns
-   */
-  generateToken(payload: AuthenticatorData): string {
-    const token = jwt.sign(payload, process.env.JWT_KEY as string, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    });
+  private readonly jwtKey: string;
+  private readonly jwtExpiresIn: number;
 
-    return token;
+  constructor() {
+    const {
+      env: { JWT_EXPIRES_IN, JWT_KEY },
+    } = process;
+
+    if (JWT_EXPIRES_IN === undefined || JWT_KEY === undefined) {
+      throw new ExceptionError('XXX');
+    }
+
+    this.jwtKey = JWT_KEY;
+    this.jwtExpiresIn = Number(JWT_EXPIRES_IN);
   }
 
-  /**
-   * Pega informações do toke
-   * @param token
-   * @returns
-   */
+  generateToken(payload: AuthenticatorData): string {
+    return jwt.sign(payload, this.jwtKey, {
+      expiresIn: this.jwtExpiresIn,
+    });
+  }
+
   getTokenData(token: string): AuthenticatorData {
     try {
-      const result: AuthenticatorData = jwt.verify(token, process.env.JWT_KEY as string);
+      const decoded = jwt.verify(token, this.jwtKey);
 
-      return result;
-    } catch (error) {
+      if (!isAuthenticatorData(decoded)) {
+        throw new UnauthorizedError('XXX');
+      }
+
+      return decoded;
+    } catch {
       throw new UnauthorizedError('XXX');
     }
   }
 }
-
-export default new AuthenticatorService();

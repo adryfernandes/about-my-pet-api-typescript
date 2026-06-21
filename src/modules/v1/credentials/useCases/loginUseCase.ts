@@ -1,8 +1,6 @@
-import { ExceptionError } from '@/shared/errors';
-
 class LoginUseCase {
-  public async execute() {
-    throw new ExceptionError('Erro de login');
+  // eslint-disable-next-line @typescript-eslint/class-methods-use-this -- desenvolvendo
+  public execute(): string {
     return 'Login realizado com sucesso';
   }
 }

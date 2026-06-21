@@ -1,11 +1,9 @@
+import type { Request, Response } from 'express';
+
 import loginUseCase from './useCases/loginUseCase';
 
-class CredentialsController {
-  async findAll(req, res) {
-    await loginUseCase.execute();
+export const findAll = (req: Request, res: Response): Response => {
+  loginUseCase.execute();
 
-    return res.json({ message: 'Rota de login' });
-  }
-}
-
-export default new CredentialsController();
+  return res.json({ message: 'Rota de login' });
+};

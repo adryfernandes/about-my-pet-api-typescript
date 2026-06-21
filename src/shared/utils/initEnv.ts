@@ -13,6 +13,8 @@ const envSchema = z.object({
   // DB_SCHEMA: z.string(),
   // DB_PORT: z.coerce.number().int().positive(),
   PASSWORD_COST: z.coerce.number().int().positive(),
+  JWT_KEY: z.string(),
+  JWT_EXPIRES_IN: z.coerce.number().int().positive(),
 });
 
 export const initEnv = (): void => {

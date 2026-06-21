@@ -16,7 +16,7 @@ export const HashManagerService = {
 
     const cost = Number(PASSWORD_COST);
 
-    if (Number.isNaN(cost) || cost <= 0) {
+    if (Number.isNaN(cost) || isEmpty(cost)) {
       console.error('Erro ao gerar hash de senha');
 
       throw new ExceptionError('Configuração inválida de PASSWORD_COST');

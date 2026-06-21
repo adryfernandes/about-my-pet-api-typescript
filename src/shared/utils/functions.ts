@@ -1,5 +1,7 @@
 import { HttpStatusCode } from 'axios';
 
+import type { AuthenticatorData } from '../interfaces/ServicesInterface';
+
 import { GENERIC_ERROR } from './constants';
 
 import type { ErrorResponse, Error } from '@/shared/interfaces/ErrorInterface';
@@ -47,4 +49,8 @@ export const isEmpty = (value: string | object | number): boolean => {
   }
 
   return false;
+};
+
+export const isAuthenticatorData = (value: unknown): value is AuthenticatorData => {
+  return typeof value === 'object' && value !== null && 'user' in value;
 };
