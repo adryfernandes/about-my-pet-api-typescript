@@ -7,14 +7,10 @@ import { ExceptionError } from '../errors';
 
 const envSchema = z.object({
   NODE_ENV: z.string(),
-  // DB_SERVER: z.string(),
-  // DB_USERNAME: z.string(),
-  // DB_PASSWORD: z.string(),
-  // DB_SCHEMA: z.string(),
-  // DB_PORT: z.coerce.number().int().positive(),
   PASSWORD_COST: z.coerce.number().int().positive(),
   JWT_KEY: z.string(),
   JWT_EXPIRES_IN: z.coerce.number().int().positive(),
+  DATABASE_URL: z.string(),
 });
 
 export const initEnv = (): void => {

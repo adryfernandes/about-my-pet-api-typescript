@@ -1,8 +1,9 @@
+import { UserRepository } from 'about-my-pet-db-postgres';
+
 class LoginUseCase {
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this -- desenvolvendo
-  public execute(): string {
-    return 'Login realizado com sucesso';
-  }
+  constructor(private readonly repository = new UserRepository()) {}
+
+  async execute(): Promise<void> {}
 }
 
 export default new LoginUseCase();

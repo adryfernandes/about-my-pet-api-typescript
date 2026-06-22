@@ -1,9 +1,16 @@
+import { HttpStatusCode } from 'axios';
 import type { Request, Response } from 'express';
+import { Route } from 'tsoa';
 
 import loginUseCase from './useCases/loginUseCase';
 
-export const findAll = (req: Request, res: Response): Response => {
-  loginUseCase.execute();
+@Route('credentials')
+class CredentialsController {
+  public login = async (_req: Request, res: Response): Promise<void> => {
+    await loginUseCase.execute();
 
-  return res.json({ message: 'Rota de login' });
-};
+    res.sendStatus(HttpStatusCode.NoContent);
+  };
+}
+
+export default new CredentialsController();
