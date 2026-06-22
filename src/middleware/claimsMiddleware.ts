@@ -9,10 +9,10 @@ import { handleErrorResponse } from '@/shared/utils/functions';
 
 export const claimsMiddleware = (req: Request, res: Response, next: NextFunction): void => {
   try {
-    const { url } = req;
-    if (url.includes('credentials')) {
-      next();
+    const publicRoutes = ['/v1/credentials', '/v1/health'];
 
+    if (publicRoutes.some((route) => req.path.startsWith(route))) {
+      next();
       return;
     }
 

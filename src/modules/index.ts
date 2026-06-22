@@ -6,6 +6,6 @@ import { claimsMiddleware } from '@/middleware/claimsMiddleware';
 
 const router = Router();
 
-router.use('/v1', routerV1);
+router.use('/v1', claimsMiddleware, routerV1);
 
 export default router;
